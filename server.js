@@ -97,7 +97,7 @@ passport.serializeUser(function(user, done) {
 
 // Configuration
 app.use(cors({
-    origin: 'http://localhost:3000',
+    origin: 'https://henri-twitter-test.herokuapp.com',
     credentials: true,
 }));
 app.use(bodyParser.json());
@@ -217,7 +217,11 @@ app.get('/bookmarks/:id', (req, res, next) => {
 
 // tweet endpoint creates a new tweet object from mongoose model and pushes to db
 app.post('/tweet', upload.single('image'), (req, res, next) => {
-    let url = 'https://henri-twitter-test.herokuapp.com/';
+    if (process.env.NODE_ENV === 'production') {
+        let url = 'https://henri-twitter-test.herokuapp.com/';
+    } else {
+        let url = 'http://localhost:9000/';
+    }
     let query = User.findById(req.body.username, (err, response) => {
         if(err) {
             return next(err); 
