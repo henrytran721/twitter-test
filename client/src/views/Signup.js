@@ -1,6 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import '../sass/_signup.scss';
+import {MyApiClient} from './my-api-client.js';
 export default class Signup extends React.Component {
     constructor(props) {
         super(props);
@@ -34,7 +35,8 @@ export default class Signup extends React.Component {
 
         axios
             // post and pass user object to express
-            .post('http://localhost:9000/signup', user)
+            MyApiClient
+            .post('/signup', user)
             .then((response) => {
                 // error if username is taken
                 if(response.data.username === this.state.username) {
