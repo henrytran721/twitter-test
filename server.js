@@ -97,7 +97,7 @@ passport.serializeUser(function(user, done) {
 
 // Configuration
 app.use(cors({
-    origin: 'https://henri-twitter-test.herokuapp.com',
+    origin: 'https://henri-twitter-test.herokuapp.com/',
     credentials: true,
 }));
 app.use(bodyParser.json());
@@ -217,11 +217,7 @@ app.get('/bookmarks/:id', (req, res, next) => {
 
 // tweet endpoint creates a new tweet object from mongoose model and pushes to db
 app.post('/tweet', upload.single('image'), (req, res, next) => {
-    if (process.env.NODE_ENV === 'production') {
-        let url = 'https://henri-twitter-test.herokuapp.com/';
-    } else {
-        let url = 'http://localhost:9000/';
-    }
+    let url = req.protocol + '://' + req.hostname + ':' + process.env.PORT + '/';
     let query = User.findById(req.body.username, (err, response) => {
         if(err) {
             return next(err); 
@@ -253,6 +249,231 @@ app.post('/tweet', upload.single('image'), (req, res, next) => {
             })
         }
     });
+})
+
+app.post('/retweet', (req, res, next) => {
+    let postId = req.body.postid;
+    let user = req.body.user;
+    let retweets = user.retweets;
+    // query to find the post the user is retweeting
+    async.series({
+        findTweet: function(callback) {
+            Tweet.findById(postId)
+                .exec(callback)
+        } 
+    }, function(err, result) {
+        if(err) {
+            return err;
+        } else {
+            let retweet = result.findTweet;
+            const tweet = new Tweet(
+                {
+                    date: new Date(),
+                    tweet: retweet.tweet,
+                    image: retweet.image,
+                    username: retweet.username,
+                    userRetweeted: user._id
+                }
+            )
+            retweets.push(tweet);
+            let userUpdated = new User({
+                first_name: user.first_name,
+                last_name: user.last_name,
+                username: user.username,
+                _id: user._id,
+                password: user.password,
+                retweets: retweets,
+                likedTweets: user.likedTweets
+            })
+            
+            User.findByIdAndUpdate(user._id, userUpdated, {}, (err, res) => {
+                if(err) {
+                    return err;
+                } else {
+                    //console.log(res);
+                }
+            })
+            tweet.save((err) => {
+                if(err) {
+                    return err;
+                } else {
+                    let redirect = {redirect: '/'}
+                    res.send(redirect);
+                }
+            })
+        }
+    })
+})
+
+app.post('/unretweet', (req, res, next) => {
+    let postId = req.body.postId;
+    let user = req.body.user;
+    let retweets = user.retweets;
+
+    Tweet.findByIdAndDelete(postId, (err, response) => {
+        if(err) {
+            return next(err);
+        } else {
+            const result = retweets.filter(rt => rt._id !== postId)
+            let userUpdated = new User({
+                first_name: user.first_name,
+                last_name: user.last_name,
+                username: user.username,
+                _id: user._id,
+                password: user.password,
+                retweets: result,
+                likedTweets: user.likedTweets, 
+                bookmarks: user.bookmarks
+            })
+            User.findByIdAndUpdate(user._id, userUpdated, {}, (err, res) => {
+                if(err) {
+                    return err;
+                } else {
+                    //console.log(res);
+                }
+            })
+            let redirect = {redirect: '/'}
+            res.send(redirect);
+        }
+    })
+})
+
+app.post('/likeTweet', (req, res, next) => {
+    let postId = req.body.postId;
+    let user = req.body.user;
+    let retweets = user.retweets;
+    let likedTweets = user.likedTweets;
+    async.series(
+        {
+            findTweet: function(callback) {
+                Tweet.findById(postId)
+                .exec(callback)
+            }
+        }, function(err, results) {
+            if(err) { return next(err); }
+            likedTweets.push(results.findTweet);
+            console.log(likedTweets);
+            let userUpdated = new User({
+                first_name: user.first_name,
+                last_name: user.last_name,
+                username: user.username,
+                _id: user._id,
+                password: user.password,
+                retweets: retweets,
+                likedTweets: likedTweets,
+                bookmarks: user.bookmarks
+            })
+
+            User.findByIdAndUpdate(user._id, userUpdated, {}, (err, response) => {
+                if(err) {
+                    return err;
+                } else {
+                    let redirect={redirect: '/'}
+                    res.send(redirect);
+                }
+            })
+        }
+    )
+
+})
+
+app.post('/unlikeTweet', (req, res, next) => {
+    const user = req.body.user;
+    const postId = req.body.postId;
+    // array of user liked tweets to be updated
+    let likedUpdate = user.likedTweets;
+    // run the filter array method and pass in rule to return tweets that are not equal to postId
+    let newArr = likedUpdate.filter(liked => liked._id !== postId);
+
+    // create new user object passing in our new data and same id to update user in db
+    let userUpdated = new User({
+        first_name: user.first_name,
+        last_name: user.last_name,
+        username: user.username,
+        _id: user._id,
+        password: user.password,
+        retweets: user.retweets,
+        likedTweets: newArr,
+        bookmarks: user.bookmarks
+    })
+
+    // update user with our user object created and redirect back to homepage
+    User.findByIdAndUpdate(user._id, userUpdated, {}, (err, response) => {
+        if(err) {
+            return err;
+        } else {
+            let redirect={redirect: '/'}
+            res.send(redirect);
+        }
+    })
+})
+
+app.post('/bookmark', (req, res, next) => {
+    // console.log(req.body.postid);
+    // console.log(req.body.user);
+    const postid = req.body.postid;
+    const user = req.body.user;
+    
+    async.series({
+        tweet: function(callback) {
+            Tweet.findById(postid)
+                .populate('userRetweeted username')
+                .exec(callback)
+        }
+    }, function(err, response) {
+        let bookArr = user.bookmarks;
+        bookArr.push(response.tweet);
+        // create new user object with updated bookmark arr
+        let userUpdated = new User({
+            first_name: user.first_name,
+            last_name: user.last_name,
+            username: user.username,
+            _id: user._id,
+            password: user.password,
+            retweets: user.retweets,
+            likedTweets: user.likedTweets,
+            bookmarks: bookArr
+        })
+
+        User.findByIdAndUpdate(user._id, userUpdated, {}, (err, response) => {
+            if(err) {
+                return err;
+            } else {
+                let redirect={redirect: '/'}
+                res.send(redirect);
+            }
+        })
+    }
+    )
+})
+
+app.post('/unbookmark', (req, res, next) => {
+        const postid = req.body.postid;
+        const user = req.body.user;
+
+        let bookmarks = user.bookmarks;
+        let newArr = bookmarks.filter(book => book._id !== postid);
+        
+        let userUpdated = new User({
+            first_name: user.first_name,
+            last_name: user.last_name,
+            username: user.username,
+            _id: user._id,
+            password: user.password,
+            retweets: user.retweets,
+            likedTweets: user.likedTweets,
+            bookmarks: newArr
+        })
+
+        User.findByIdAndUpdate(user._id, userUpdated, {}, (err, response) => {
+            if(err) {
+                return err;
+            } else {
+                let redirect={redirect: '/'}
+                res.send(redirect);
+            }
+        })
+
 })
 
 app.listen(process.env.PORT || 9000, () => {
