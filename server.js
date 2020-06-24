@@ -107,7 +107,6 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(session({ secret: "dole-whip", resave: false, saveUninitialized: true}));
 app.use(passport.initialize());
 app.use(passport.session());
-app.use('/uploads', express.static('uploads'));
 
 // Step 3
 if (process.env.NODE_ENV === 'production') {

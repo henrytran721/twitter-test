@@ -225,8 +225,8 @@ export default class Login extends React.Component {
     handleSubmit = (e) => {
         e.preventDefault();
         
-        axios
-            .post('http://localhost:9000/login', {
+        MyApiClient
+            .post('/login', {
                 username: this.state.username,
                 password: this.state.password
             })
