@@ -122,8 +122,8 @@ export default class Bookmark extends React.Component {
             
             // post the user id from local storage and set userInfo state to retrieved data
             // main purpose is to re-render and refresh user data with each interaction with client
-            axios
-            .post('http://localhost:9000/', {
+            MyApiClient
+            .post('/', {
                 userid: user._id
             })
             .then((response) => {
