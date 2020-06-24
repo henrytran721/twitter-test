@@ -32,8 +32,6 @@ export default class Signup extends React.Component {
             username,
             password,
         }
-
-        axios
             // post and pass user object to express
             MyApiClient
             .post('/signup', user)
