@@ -1,0 +1,192 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap');
+$roboto: 'Roboto', sans-serif;
+
+.loginContainer {
+    background: #ededed;
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .loginForm {
+        background: white;
+        width: 30%;
+        height: 70%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-evenly;
+        align-items: center;
+        border-radius: 5px;
+        box-shadow: 0 2px 20px 0 rgba(0,0,0,0.15);
+
+        img {
+            width: 100px;
+            height: 100px;
+        }
+
+        input {
+            width: 50%;
+            padding: 2%;
+        }
+
+        button {
+            background: #1DA1F2;
+            border: none;
+            padding: 3% 24.5%;
+            color: white;
+            border-radius: 5px;
+            font-family: $roboto;
+            text-transform: uppercase;
+            font-size: 1.2em;
+        }
+
+        a {
+            background: #1DA1F2;
+            border: none;
+            padding: 3% 23%;
+            color: white;
+            border-radius: 5px;
+            text-decoration: none;
+            font-family: $roboto;
+            text-transform: uppercase;
+            font-size: 1.2em;
+        }
+    }
+}
+
+
+.loginError {
+    font-size: 0.9em;
+    color: red;
+}
+
+.mainContainer {
+    border-bottom: 1px solid #e0e0e0;
+    .homeHeader {
+        border-bottom: 1px solid #e0e0e0;
+        width: 80%;
+
+        h3 {
+            padding: 0 5%;
+        }
+    }
+}
+
+
+.userContent {
+    input[type=text] {
+        width: 71%;
+        height: 50px;
+        font-size: 1.0em;
+        font-family: $roboto;
+        padding: 0 4%;
+        border: none;
+
+        &:focus {
+            outline: none;
+        }
+    }
+
+    img {
+        max-width: 300px;
+        max-height: 300px;
+        margin: 0 25%;
+    }
+}
+
+.tweetBtns {
+    margin: 5% 0 0 0;
+    width: 77%;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 3% 3% 3%;
+    border-bottom: 1px solid #e0e0e0;
+
+    #addImage, .tweetBtn {
+        background: none;
+        border: none;
+        width: 15%;
+        height: 35px;
+        background: #1DA1F2;
+        color: white;
+        border-radius: 5px;
+    }
+
+}
+
+
+.tweetCard {
+    width: 77%;
+    display: flex;
+    flex-direction: column;
+    padding: 3% 5%;
+    border-bottom: 1px solid #e0e0e0;
+    h4 {
+        font-family: $roboto;
+        margin: 3% 0 0 0;
+        padding: 0;
+        span {
+            font-weight: normal;
+        }
+    }
+
+    p {
+        margin: 3% 0;
+    }
+
+    img {
+        max-width: 300px;
+        max-height: 500px;
+        margin: 0 20%;
+    }
+}
+
+
+.tweetInteractions {
+    display: flex;
+    margin: 3% 0;
+    justify-content: space-between;
+
+    .tIRetweet, .tIBookmark {
+        border: none;
+        background: #1DA1F2;
+        color: white;
+        border-radius: 5px;
+        box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.15);
+        font-family: $roboto;
+        cursor: pointer;
+    }
+
+    .confirmRetweet {
+        border: none;
+        background: green;
+        color: white;
+        border-radius: 5px;
+        box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.15);
+        font-family: $roboto;
+        cursor: pointer;
+    }
+
+    .tILike {
+        background: none;
+        border: none;
+        font-size: 1.5em;
+        color: grey;
+        cursor: pointer;
+
+        &:focus {
+            outline: none;
+        }
+    }
+}
+
+.retweetText {
+    font-family: $roboto;
+    color: #1DA1F2;
+}
+
+.tweetDate {
+    padding: 1% 0;
+    font-family: $roboto;
+}

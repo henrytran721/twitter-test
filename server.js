@@ -1,12 +1,20 @@
-
-// Importing Modules
-const mongoose = require('mongoose');
 const express = require('express');
-const bodyParser = require('body-parser');
+const session = require('express-session');
 const path = require('path');
-
-// importing files
-const routes = require('./routes');
+const mongoose = require('mongoose');
+const passport = require('passport');
+const LocalStrategy = require('passport-local').Strategy;
+const dotenv = require('dotenv').config();
+const Schema = mongoose.Schema;
+const bcrypt = require('bcryptjs');
+const async = require('async');
+const moment = require('moment');
+const passwordValidator = require('password-validator');
+const cors = require('cors');
+const bodyParser = require('body-parser');
+const cookieParser = require('cookie-parser');
+var sanitizer = require('sanitize')();
+const multer = require('multer');
 
 // Define Global Variables
 const app = express();
@@ -24,7 +32,6 @@ db.on("error", console.error.bind(console, "mongo connection error"));
 // Configuration
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use('/', routes);
 
 console.log('hello');
 

@@ -1,41 +1,53 @@
-import React, { Component } from 'react';
-import Form from './components/Form';
-import DisplayUsers from './components/DisplayUsers';
-import axios from 'axios';
+import React from 'react';
+import logo from './logo.svg';
 import './App.css';
-class App extends Component {
-  state = {
-    users: []
+import Homepage from './views/Homepage.js';
+import Login from './views/Login.js';
+import Signup from './views/Signup.js';
+import Bookmark from './views/Bookmark.js';
+import Profile from './views/Profile.js';
+import axios from 'axios';
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link
+} from 'react-router-dom';
+
+class App extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      userInfo: {},
+      loggedIn: false
+    }
   }
 
-  componentDidMount = () => {
-    this.fetchUsers();
-  };
-
-  fetchUsers = () => {
-    axios.get('/users')
-      .then((response) => {
-        const { users } = response.data;
-        this.setState({ users: [...this.state.users, ...users] })
-      })
-      .catch(() => alert('Error fetching new users'));
-  };
-
-
-  addUser = ({ name, position, company }) => {
-    this.setState({
-      users: [...this.state.users, { name, position, company }]
-    });
-  };
-
+  componentDidMount() {
+    if(localStorage.length > 0) {
+      let user = JSON.parse(localStorage.list);
+      this.setState({loggedIn: true})
+    }
+  }
+  
   render() {
     return (
-      <div className="App">
-        <Form addUser={this.addUser}/>
-        < DisplayUsers users={this.state.users} />
-
+      <div>
+        <Router>
+                <Switch>
+                    <Route path='/bookmarks'>
+                        <Bookmark loggedIn={this.state.loggedIn}/>
+                    </Route>
+                    <Route path='/signup'>
+                        <Signup />
+                    </Route>
+                    <Route path='/'>
+                        <Login />
+                    </Route>
+                </Switch>
+      </Router>
       </div>
-    );
+    )
   }
 }
 
