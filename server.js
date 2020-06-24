@@ -217,7 +217,7 @@ app.get('/bookmarks/:id', (req, res, next) => {
 
 // tweet endpoint creates a new tweet object from mongoose model and pushes to db
 app.post('/tweet', upload.single('image'), (req, res, next) => {
-    let url = req.protocol + '://' + req.hostname + ':' + process.env.PORT + '/';
+    let url = "https://henri-twitter-test.herokuapp.com/";
     let query = User.findById(req.body.username, (err, response) => {
         if(err) {
             return next(err); 
