@@ -205,6 +205,7 @@ export default class Login extends React.Component {
                 userid: user._id
             })
             .then((response) => {
+                console.log(response);
                 this.setState({
                     allTweets: response.data.tweets,
                     userInfo: response.data.user
@@ -224,8 +225,8 @@ export default class Login extends React.Component {
     handleSubmit = (e) => {
         e.preventDefault();
         
-        MyApiClient
-            .post('/login', {
+        axios
+            .post('http://localhost:9000/login', {
                 username: this.state.username,
                 password: this.state.password
             })
