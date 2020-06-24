@@ -65,7 +65,7 @@ function MainContainer(props) {
             <div className='postInfo'>
                 {
                 // reverse the array so most recent posts will show up first
-                props.postInfo.reverse().map((post) => {
+                props.postInfo.map((post) => {
                     
                     // handle time calculations and set restrictions to render the date according to time
                     let date = new Date(post.date).getTime();
@@ -74,7 +74,6 @@ function MainContainer(props) {
                     let hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
                     let minutes = Math.floor((diff / (1000 * 60)) % 60);
                     let days = (diff / (60*60*24*1000));
-                    console.log(days, hours, minutes);
                     let newDate;
                     if(days > 1 && days < 2) {
                         days = days.toString();
@@ -200,8 +199,8 @@ export default class Login extends React.Component {
             
             // post the user id from local storage and set userInfo state to retrieved data
             // main purpose is to re-render and refresh user data with each interaction with client
-            axios
-            .post('http://localhost:9000/', {
+            MyApiClient
+            .post('/', {
                 userid: user._id
             })
             .then((response) => {
@@ -290,6 +289,7 @@ export default class Login extends React.Component {
         formData.append('image', this.state.imageFile);
         formData.append('tweet', this.state.tweet);
         formData.append('username', this.state.userInfo._id);
+
         console.log(formData.get('image'));
         // send tweet and image file state to backend
         MyApiClient

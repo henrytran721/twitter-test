@@ -31,8 +31,6 @@ const upload = multer({
 
 // Define Global Variables
 const app = express();
-const log = console.log;
-const PORT = process.env.PORT || 8080; // Step 1
 
 
 // Step 2
@@ -107,7 +105,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(session({ secret: "dole-whip", resave: false, saveUninitialized: true}));
 app.use(passport.initialize());
 app.use(passport.session());
-
+app.use('/uploads', express.static(("uploads")));
 // Step 3
 if (process.env.NODE_ENV === 'production') {
     app.use(express.static( 'client/build' ));
@@ -225,7 +223,8 @@ app.post('/tweet', upload.single('image'), (req, res, next) => {
             return next(err); 
         } else {
             if(req.file) {
-                var filename = url + req.file.path
+                var filename = url + req.file.path;
+                console.log(filename);
             } else {
                 filename = '';
             }
@@ -236,6 +235,7 @@ app.post('/tweet', upload.single('image'), (req, res, next) => {
                     username: response
                 }
             )
+            console.log(tweet);
             tweet.save((err) => {
                 if(err) {
                     return next(err);
@@ -251,6 +251,6 @@ app.post('/tweet', upload.single('image'), (req, res, next) => {
     });
 })
 
-app.listen(PORT, () => {
-    log(`Server is starting at PORT: ${PORT}`);
-});
+app.listen(process.env.PORT || 9000, () => {
+    console.log(`Server is running on port ` + process.env.PORT);
+})
