@@ -15,19 +15,10 @@ const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 var sanitizer = require('sanitize')();
 const multer = require('multer');
+var AWS = require('aws-sdk');
 
-const storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-        cb(null, 'uploads/')
-    },
-    filename: (req, file, cb) => {
-        cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname))
-    }
-})
-const upload = multer({
-    storage: storage
-})
-
+var storage = multer.memoryStorage();
+var upload = multer({storage: storage});
 
 // Define Global Variables
 const app = express();
@@ -36,6 +27,7 @@ const app = express();
 // Step 2
 const dev_db_url = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0-gevd4.azure.mongodb.net/twitter?retryWrites=true&w=majority`;
 const mongoDb = process.env.MONGODB_URI || dev_db_url;
+mongoose.set('useCreateIndex', true)
 mongoose.connect(mongoDb, {useUnifiedTopology: true, useNewUrlParser: true});
 const db = mongoose.connection;
 db.on("error", console.error.bind(console, "mongo connection error"));
@@ -98,6 +90,7 @@ passport.serializeUser(function(user, done) {
 // Configuration
 app.use(cors({
     origin: 'https://henri-twitter-test.herokuapp.com/',
+    // origin: "http://localhost:3000",
     credentials: true,
 }));
 app.use(bodyParser.json());
@@ -217,38 +210,81 @@ app.get('/bookmarks/:id', (req, res, next) => {
 
 // tweet endpoint creates a new tweet object from mongoose model and pushes to db
 app.post('/tweet', upload.single('image'), (req, res, next) => {
-    let url = "https://henri-twitter-test.herokuapp.com/";
-    let query = User.findById(req.body.username, (err, response) => {
-        if(err) {
-            return next(err); 
-        } else {
-            if(req.file) {
-                var filename = url + req.file.path;
-                console.log(filename);
+        const file = req.file;
+        const s3FileURL = process.env.AWS_Uploaded_File_URL_LINK;
+        const user = req.body.username;
+        const tweetText = req.body.tweet;
+        let s3bucket = new AWS.S3({
+            accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+            secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+            region: process.env.AWS_REGION
+        })
+
+        if(req.file) {
+
+        var params = {
+                Bucket: process.env.AWS_BUCKET_NAME,
+                Key: file.originalname,
+                Body: file.buffer,
+                ContentType: file.mimetype,
+                ACL: "public-read"
+        };
+        s3bucket.upload(params, function(err, data) {
+            if(err) {
+                res.status(500).json({error: true, Message: err});
             } else {
-                filename = '';
+                var newFileUploaded = {
+                    fileLink: s3FileURL + file.originalname,
+                    s3_key: params.Key
+                }
+                User.findById(req.body.username, (err, response) => {
+                    if(err) {
+                        return next(err);
+                    } else {
+                        const tweet = new Tweet(
+                            {
+                                tweet: tweetText,
+                                image: newFileUploaded.fileLink,
+                                username: response
+                            }
+                        )
+                        tweet.save((err) => {
+                            if(err) {
+                                console.log(err);
+                            } else {
+                                res.send({
+                                    redirect: '/'
+                                })
+                            }
+                        })
+                    }
+                })
             }
-            const tweet = new Tweet(
-                {
-                    tweet: req.body.tweet,
-                    image: filename,
-                    username: response
-                }
-            )
-            console.log(tweet);
-            tweet.save((err) => {
-                if(err) {
-                    return next(err);
-                } else {
-                    res.send(
-                        {
+        })
+    } else {
+        User.findById(req.body.username, (err, response) => {
+            if(err) {
+                return next(err);
+            } else {
+                const tweet = new Tweet(
+                    {
+                        tweet: tweetText,
+                        image: '',
+                        username: response
+                    }
+                )
+                tweet.save((err) => {
+                    if(err) {
+                        console.log(err);
+                    } else {
+                        res.send({
                             redirect: '/'
-                        }
-                    )
-                }
-            })
-        }
-    });
+                        })
+                    }
+                })
+            }
+        })
+    }
 })
 
 app.post('/retweet', (req, res, next) => {

@@ -286,11 +286,14 @@ export default class Login extends React.Component {
             }
         };
         const formData = new FormData();
-        formData.append('image', this.state.imageFile);
+        if(this.state.imageFile !== '') {
+            formData.append('image', this.state.imageFile);
+        } else {
+            formData.append('image', '');
+        }
         formData.append('tweet', this.state.tweet);
         formData.append('username', this.state.userInfo._id);
 
-        console.log(formData.get('image'));
         // send tweet and image file state to backend
         MyApiClient
             .post('/tweet', formData, config)            
