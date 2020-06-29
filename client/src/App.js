@@ -38,12 +38,14 @@ class App extends React.Component {
                     <Route path='/bookmarks'>
                         <Bookmark loggedIn={this.state.loggedIn}/>
                     </Route>
+                    <Route path='/user/:id' component={Profile} />
                     <Route path='/signup'>
                         <Signup />
                     </Route>
                     <Route path='/'>
                         <Login />
                     </Route>
+                    
                 </Switch>
       </Router>
       </div>

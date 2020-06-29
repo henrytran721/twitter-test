@@ -42,7 +42,10 @@ const User = mongoose.model(
         password: {type: String, required: true},
         retweets: {type: Array},
         likedTweets: {type: Array},
-        bookmarks: {type: Array}
+        bookmarks: {type: Array},
+        location: {type: String},
+        birthdate: {type: String},
+        hyperlink: {type: String}
     }
 )
 
@@ -52,7 +55,7 @@ const Tweet = mongoose.model(
         image: {type: String, min :1},
         username: {type: Schema.Types.ObjectId, ref: 'User'},
         date: {type: Date, default: Date.now()},
-        userRetweeted: {type: Schema.Types.ObjectId, ref: 'User'}
+        userRetweeted: {type: Schema.Types.ObjectId, ref: 'User'},
     }
 )
 
@@ -89,8 +92,8 @@ passport.serializeUser(function(user, done) {
 
 // Configuration
 app.use(cors({
-    origin: 'https://henri-twitter-test.herokuapp.com/',
-    // origin: "http://localhost:3000",
+    // origin: 'https://henri-twitter-test.herokuapp.com/',
+    origin: "http://localhost:3000",
     credentials: true,
 }));
 app.use(bodyParser.json());
@@ -194,6 +197,29 @@ app.post('/', (req, res, next) => {
         }
     }, function(err, results) {
         res.send({tweets: results.tweets, user: results.user})
+    })
+})
+
+app.post('/queryprofile', (req, res, next) => {
+    let userid = req.body.userid;
+    let logged = req.body.loggedInId;
+    async.parallel({
+        tweets: function(callback) {
+            Tweet.find({})
+            .select('image username tweet userRetweeted date')
+            .populate('username userRetweeted')
+            .exec(callback)
+        },
+        user: function(callback) {
+            User.findById(userid)
+                .exec(callback)
+        },
+        logged: function(callback) {
+            User.findById(logged)
+            .exec(callback)
+        }
+    }, function(err, results) {
+        res.send({tweets: results.tweets, user: results.user, logged: results.logged})
     })
 })
 
@@ -359,7 +385,10 @@ app.post('/unretweet', (req, res, next) => {
                 password: user.password,
                 retweets: result,
                 likedTweets: user.likedTweets, 
-                bookmarks: user.bookmarks
+                bookmarks: user.bookmarks,
+                location: user.location,
+                birthdate: user.birthdate,
+                hyperlinK: user.hyperlink
             })
             User.findByIdAndUpdate(user._id, userUpdated, {}, (err, res) => {
                 if(err) {
@@ -397,7 +426,10 @@ app.post('/likeTweet', (req, res, next) => {
                 password: user.password,
                 retweets: retweets,
                 likedTweets: likedTweets,
-                bookmarks: user.bookmarks
+                bookmarks: user.bookmarks,
+                location: user.location,
+                birthdate: user.birthdate,
+                hyperlinK: user.hyperlink
             })
 
             User.findByIdAndUpdate(user._id, userUpdated, {}, (err, response) => {
@@ -430,7 +462,10 @@ app.post('/unlikeTweet', (req, res, next) => {
         password: user.password,
         retweets: user.retweets,
         likedTweets: newArr,
-        bookmarks: user.bookmarks
+        bookmarks: user.bookmarks,
+        location: user.location,
+        birthdate: user.birthdate,
+        hyperlinK: user.hyperlink
     })
 
     // update user with our user object created and redirect back to homepage
@@ -468,7 +503,10 @@ app.post('/bookmark', (req, res, next) => {
             password: user.password,
             retweets: user.retweets,
             likedTweets: user.likedTweets,
-            bookmarks: bookArr
+            bookmarks: bookArr,
+            location: user.location,
+            birthdate: user.birthdate,
+            hyperlinK: user.hyperlink
         })
 
         User.findByIdAndUpdate(user._id, userUpdated, {}, (err, response) => {
@@ -498,7 +536,10 @@ app.post('/unbookmark', (req, res, next) => {
             password: user.password,
             retweets: user.retweets,
             likedTweets: user.likedTweets,
-            bookmarks: newArr
+            bookmarks: newArr,
+            location: user.location,
+            birthdate: user.birthdate,
+            hyperlinK: user.hyperlink
         })
 
         User.findByIdAndUpdate(user._id, userUpdated, {}, (err, response) => {
@@ -510,6 +551,33 @@ app.post('/unbookmark', (req, res, next) => {
             }
         })
 
+})
+
+app.post('/userprofile', (req, res, next) => {
+    console.log(req.body.location, req.body.birthdate, req.body.hyperlink, req.body.user);
+    const user = req.body.user;
+    let userUpdated = new User({
+        first_name: user.first_name,
+        last_name: user.last_name,
+        username: user.username,
+        _id: user._id,
+        password: user.password,
+        retweets: user.retweets,
+        likedTweets: user.likedTweets,
+        bookmarks: user.bookmarks,
+        location: req.body.location,
+        birthdate: req.body.birthdate,
+        hyperlink: req.body.hyperlink
+    })
+
+    User.findByIdAndUpdate(user._id, userUpdated, {}, (err, response) => {
+        if(err) {
+            return err;
+        } else {
+            let redirect={redirect: '/'}
+            res.send(redirect);
+        }
+    })
 })
 
 app.listen(process.env.PORT || 9000, () => {

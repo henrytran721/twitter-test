@@ -22,7 +22,6 @@ function SideNav(props) {
                 <img className='morePng' src='https://i.imgur.com/nNQceG4.png' alt='more' /> 
                 <li>More</li>
             </a>
-            <button className='logoutBtn'>Log Out</button>
         </ul>
     </div>
     )

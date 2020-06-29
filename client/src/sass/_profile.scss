@@ -1,0 +1,22 @@
+.locationDiv, .bdayDiv, .hyperlinkDiv {
+    display: flex;
+    align-items: center;
+    svg {
+        max-width: 25px;
+        max-height: 25px;
+        width: 25px;
+    }
+}
+
+
+.profileInfoDiv {
+    display: flex;
+    justify-content: space-between;
+    width: 60%;
+}
+
+.profileHeader {
+    padding: 0 5%;
+    border-bottom: 1px solid lightgrey;
+    width: 80%;
+}

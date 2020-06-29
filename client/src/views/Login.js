@@ -33,7 +33,7 @@ function SideNav(props) {
                 <a href={`/bookmarks`}>
                     <img className='bookmarkPng' src='https://i.imgur.com/q0Y4qpJ.png' alt='bookmark' />
                     <li>Bookmarks</li></a>
-                <a href={`/user/`+ props.username}>
+                <a href={`/user/`+ props.id}>
                     <img className='profilePng' src='https://i.imgur.com/bx173q8.png' alt='profile' />
                     <li>Profile</li>
                     </a>
