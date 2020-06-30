@@ -190,3 +190,17 @@ $roboto: 'Roboto', sans-serif;
     padding: 1% 0;
     font-family: $roboto;
 }
+
+.editProfile {
+    background: none;
+    border: none;
+    color: white;
+    font-family: $roboto;
+    height: 30px;
+    border-radius: 10px;
+    background: lighten(#1DA1F2, 20%);
+    cursor: pointer;
+    &:focus {
+        outline: none;
+    }
+}
