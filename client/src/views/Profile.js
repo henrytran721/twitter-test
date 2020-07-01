@@ -23,7 +23,6 @@ function SideNav(props) {
                     <img className='morePng' src='https://i.imgur.com/nNQceG4.png' alt='more' /> 
                     <li>More</li>
                 </a> */}
-                <button className='logoutBtn' onClick={props.handleLogout}>Log Out</button>
             </ul>
     </div>
     )
@@ -116,16 +115,15 @@ function ProfileContainer(props) {
                          newDate = minutes + ' mins ago';
                      }
 
-                    // handle searching liked and bookmarks for matched to conditionally render elements if user liked or bookmarked a corresponding post
                     const liked = props.user.likedTweets;
                     const bookmarks = props.user.bookmarks;
                     let newArr = [];
                     let bookArr = [];
                     liked.map((like) => {
-                        newArr.push(like._id);
+                    newArr.push(like._id);
                     })
                     bookmarks.map((book) => {
-                        bookArr.push(book._id);
+                    bookArr.push(book._id);
                     })
 
                     if(tweet.userRetweeted) {
@@ -194,9 +192,9 @@ export default class Profile extends React.Component {
                     userInfo: res.data.user,
                     tweets: res.data.tweets,
                     loggedInUser: res.data.logged,
-                    location: res.data.user.location,
-                    birthdate: res.data.user.birthdate,
-                    hyperlink: res.data.user.hyperlink
+                    location: '',
+                    birthdate: '',
+                    hyperlink: ''
                 })
             })
         }

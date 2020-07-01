@@ -6,6 +6,7 @@ import Login from './views/Login.js';
 import Signup from './views/Signup.js';
 import Bookmark from './views/Bookmark.js';
 import Profile from './views/Profile.js';
+import Tweet from './views/Tweet.js';
 import axios from 'axios';
 import {
   BrowserRouter as Router,
@@ -39,13 +40,13 @@ class App extends React.Component {
                         <Bookmark loggedIn={this.state.loggedIn}/>
                     </Route>
                     <Route path='/user/:id' component={Profile} />
+                    <Route path='/tweet/:id' component={Tweet} />
                     <Route path='/signup'>
                         <Signup />
                     </Route>
                     <Route path='/'>
                         <Login />
                     </Route>
-                    
                 </Switch>
       </Router>
       </div>

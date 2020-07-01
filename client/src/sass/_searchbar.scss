@@ -1,0 +1,27 @@
+.searchBar {
+    padding: 3% 10%;
+    margin: 5% 0 0 0;
+    border-radius: 10px;
+    border: none;
+    background: none;
+    background: rgb(230, 236, 240);
+    height: 25px;
+
+    &:focus {
+        outline: none;
+    }
+}
+
+.searchResults {
+    text-decoration: none;
+    padding: 0 3%;
+    border-bottom: 1px solid lightgrey;
+    color: rgba(29,161,242,1.00);
+    li {
+        padding: 3% 0;
+    }
+}
+
+.searchResults:last-child {
+    border-bottom: none;
+}

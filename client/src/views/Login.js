@@ -2,6 +2,7 @@ import React from 'react';
 import axios from 'axios'; 
 import '../sass/_login.scss';
 import '../sass/_sideNav.scss';
+import '../sass/_searchbar.scss';
 import logo from '../logo.svg';
 import {MyApiClient} from './my-api-client.js';
 
@@ -110,7 +111,7 @@ function MainContainer(props) {
                     return (
                         <div key={post._id} className='tweetCard'>
                             {post.userRetweeted ? <p class='retweetText'>@{post.userRetweeted.username} Retweeted</p> : ''}
-                            <h4>{post.username.first_name} {post.username.last_name} <span>@{post.username.username}</span></h4>
+                            <a class='userLink' href={`/user/` + post.username._id}><h4>{post.username.first_name} {post.username.last_name} <span>@{post.username.username}</span></h4></a>
                             <span class='tweetDate'>{newDate}</span>
                             <p>{post.tweet}</p>
                             <img src={post.image} />
@@ -135,9 +136,22 @@ function MainContainer(props) {
 }
 
 function SearchandFollow(props) {
+    let filtered = props.filteredTweets;
+    console.log(props.searchInput.length);
     return (
         <div className='sfContainer'>
-            <p>Search and Follow</p>
+            <input class='searchBar' type='text' placeholder='Search for Tweet' value={props.searchInput} onChange={props.handleSearchOnchange}/>
+            <ul>{props.searchInput.length > 0 ? filtered.map((tweet) => {
+                if(tweet.tweet) {
+                    return (
+                        <a class='searchResults' href={`/tweet/` + tweet._id}><li key={tweet._id}>{tweet.tweet.substr(0, 35)}...</li></a>
+                    )
+                } else if(tweet.first_name) {
+                    return (
+                        <a class='searchResults' href={`/user/` + tweet._id}><li key={tweet._id}>{tweet.first_name[0].toUpperCase() + tweet.first_name.substr(1, tweet.first_name.length)} {tweet.last_name[0].toUpperCase() + tweet.last_name.substr(1, tweet.last_name.length)}</li></a>
+                    )
+                }
+            }) : ''}</ul>
         </div>
     )
 }
@@ -164,7 +178,11 @@ function MainPage(props) {
              handleBookmark={props.handleBookmark}
              handleRemoveBookmark={props.handleRemoveBookmark}
             />
-            <SearchandFollow />
+            <SearchandFollow
+            handleSearchOnchange={props.handleSearchOnchange}
+            searchInput={props.searchInput}
+            filteredTweets={props.filteredTweets} 
+            />
         </div>
     )
 }
@@ -181,7 +199,9 @@ export default class Login extends React.Component {
             tweet: '',
             allTweets: [],
             imageUrl: '',
-            liked: false
+            liked: false,
+            searchInput: '',
+            allUsers: []
         }
     }
 
@@ -207,7 +227,8 @@ export default class Login extends React.Component {
                 console.log(response);
                 this.setState({
                     allTweets: response.data.tweets,
-                    userInfo: response.data.user
+                    userInfo: response.data.user,
+                    allUsers: response.data.allUsers
                 })
             })
         }
@@ -389,7 +410,31 @@ export default class Login extends React.Component {
         })
     }
 
+    handleSearchOnchange = (e) => {
+        this.setState({
+            searchInput: e.target.value
+        })
+    }
+
     render() {
+        let lowercaseTweets = [];
+        this.state.allTweets.map((tweet) => {
+            tweet.tweet = tweet.tweet.toLowerCase();
+            lowercaseTweets.push(tweet);
+        })
+        this.state.allUsers.map((user) => {
+            user.first_name = user.first_name.toLowerCase();
+            user.last_name = user.last_name.toLowerCase();
+            user.username = user.username.toLowerCase();
+            lowercaseTweets.push(user);
+        })
+        const filteredTweets = lowercaseTweets.filter((tweet) => {
+            if(tweet.tweet) {
+                return tweet.tweet.includes(this.state.searchInput.toLowerCase())
+            } else if(tweet.first_name) {
+                return tweet.first_name.includes(this.state.searchInput.toLowerCase());
+            }
+        })
         return (
             <div>
             { !this.state.loggedIn ? 
@@ -412,6 +457,9 @@ export default class Login extends React.Component {
                 handleUnLike={this.handleUnLike}
                 handleBookmark={this.handleBookmark}
                 handleRemoveBookmark={this.handleRemoveBookmark}
+                handleSearchOnchange={this.handleSearchOnchange}
+                searchInput={this.state.searchInput}
+                filteredTweets={filteredTweets}
                 />
             }
             </div>

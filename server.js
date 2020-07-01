@@ -191,12 +191,17 @@ app.post('/', (req, res, next) => {
             .populate('username userRetweeted')
             .exec(callback)
         },
+        allUsers: function(callback) {
+            User.find({})
+            .select('username first_name last_name')
+            .exec(callback)
+        },
         user: function(callback) {
             User.findById(userid)
                 .exec(callback)
         }
     }, function(err, results) {
-        res.send({tweets: results.tweets, user: results.user})
+        res.send({tweets: results.tweets, user: results.user, allUsers: results.allUsers})
     })
 })
 
@@ -577,6 +582,24 @@ app.post('/userprofile', (req, res, next) => {
             let redirect={redirect: '/'}
             res.send(redirect);
         }
+    })
+})
+
+app.post('/fetchTweet', (req, res, next) => {
+    const userid = req.body.userid;
+    async.parallel({
+        tweets: function(callback) {
+            Tweet.find({})
+            .select('image username tweet userRetweeted date')
+            .populate('username userRetweeted')
+            .exec(callback)
+        },
+        user: function(callback) {
+            User.findById(userid)
+                .exec(callback)
+        }
+    }, (err, response) => {
+        res.send({tweet: response.tweets, user: response.user});
     })
 })
 
