@@ -5,8 +5,8 @@ import {MyApiClient} from './my-api-client.js';
 function SideNav(props) {
     return (
         <div className='sideNavContainer'>
-        <img src='https://image.flaticon.com/icons/svg/733/733579.svg' alt='twitter' />
-        <ul>
+        <img className='twitterIconTop' src='https://image.flaticon.com/icons/svg/733/733579.svg' alt='twitter' />
+        <ul className='frontPageNav'>
                 <a href='/'>
                 <img className='homePng' src='https://i.imgur.com/AkXK2MQ.png' alt='home' />
                     <li class='homeText' style={{color: 'rgba(29,161,242,1.00)'}}>Home</li>
@@ -76,7 +76,7 @@ function BookmarkContainer(props) {
             return (
                 <div key={tweet._id} className='tweetCard'>
                     {tweet.userRetweeted ? <p class='retweetText'>@{tweet.userRetweeted.username} Retweeted</p> : ''}
-                    <h4>{tweet.username.first_name} {tweet.username.last_name} <span>@{tweet.username.username}</span></h4>
+                    <a class='userLink' href={`/user/` + tweet.username._id}><h4>{tweet.username.first_name} {tweet.username.last_name} <span>@{tweet.username.username}</span></h4></a>
                     <span className='tweetDate'>{newDate}</span>
                     <p>{tweet.tweet}</p>
                     <img src={tweet.image} />

@@ -1,11 +1,18 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap');
 $roboto: 'Roboto', sans-serif;
+$minWidth: 320px;
+$maxWidth: 480px;
 
 .mainPageContainer {
     display: flex;
 
     .mainContainer {
         flex: 2.5;
+
+        @media (min-width: $minWidth) and (max-width: $maxWidth) {
+            width: 100%;
+            overflow-x: hidden;
+        }
     }
 
     .bookmarkContainer, .profileContainer, .tweetContainer {
@@ -18,6 +25,9 @@ $roboto: 'Roboto', sans-serif;
         display: flex;
         flex-direction: column;
         align-items: center;
+        @media (min-width: $minWidth) and (max-width: $maxWidth) {
+            display: none;
+        }
         ul {
             list-style: none;
             background: rgb(230, 236, 240);
@@ -37,6 +47,12 @@ $roboto: 'Roboto', sans-serif;
     align-items: center;
     flex: 1.25 1;
     border-right: 1px solid #e0e0e0;
+    @media(min-width: 320px) and (max-width: 480px) {
+        position: fixed;
+        bottom: 0;
+        background: white;
+        width: 100%;
+    }
     img {
         max-width: 50px;
         max-height: 50px;
@@ -95,4 +111,23 @@ $roboto: 'Roboto', sans-serif;
     border-radius: 5px;
     box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.15);
     font-family: $roboto;
+}
+
+.twitterIconTop {
+    @media(min-width: $minWidth) and (max-width: $maxWidth) {
+        display: none;
+    }
+}
+
+.frontPageNav {
+    @media(min-width: $minWidth) and (max-width: $maxWidth) {
+        width: 100% !important;
+        flex-direction: row !important;
+        border-top: 1px solid gray;
+        margin: 0;
+        padding: 2% 0;
+        li {
+            display: none;
+        }
+    }
 }

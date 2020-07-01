@@ -1,5 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap');
 $roboto: 'Roboto', sans-serif;
+$minWidth: 320px;
+$maxWidth: 480px;
 
 .loginContainer {
     background: #ededed;
@@ -111,6 +113,9 @@ $roboto: 'Roboto', sans-serif;
         background: #1DA1F2;
         color: white;
         border-radius: 5px;
+        @media(min-width: $minWidth) and (max-width: $maxWidth) {
+            width: 30%;
+        }
     }
 
 }

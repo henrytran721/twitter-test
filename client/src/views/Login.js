@@ -25,8 +25,8 @@ function LogInForm(props) {
 function SideNav(props) {
     return (
         <div className='sideNavContainer'>
-            <img src='https://image.flaticon.com/icons/svg/733/733579.svg' alt='twitter' />
-            <ul>
+            <img class='twitterIconTop' src='https://image.flaticon.com/icons/svg/733/733579.svg' alt='twitter' />
+            <ul class='frontPageNav'>
                 <a href='/'>
                 <img className='homePng' src='https://i.imgur.com/AkXK2MQ.png' alt='home' />
                     <li class='homeText' style={{color: 'rgba(29,161,242,1.00)'}}>Home</li>
