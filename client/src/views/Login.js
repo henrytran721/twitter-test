@@ -137,7 +137,7 @@ function MainContainer(props) {
 
 function SearchandFollow(props) {
     let filtered = props.filteredTweets;
-    console.log(props.searchInput.length);
+    console.log('Howdy there xD');
     return (
         <div className='sfContainer'>
             <input class='searchBar' type='text' placeholder='Search for Tweet' value={props.searchInput} onChange={props.handleSearchOnchange}/>

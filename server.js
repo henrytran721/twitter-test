@@ -92,7 +92,7 @@ passport.serializeUser(function(user, done) {
 
 // Configuration
 app.use(cors({
-    origin: 'http://henri-twitter-test.herokuapp.com/',
+    origin: 'https://henri-twitter-test.herokuapp.com/',
     // origin: "http://localhost:3000",
     credentials: true,
 }));
