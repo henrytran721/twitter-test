@@ -1,5 +1,7 @@
 # Twitter
 
+Viewable at: https://henri-twitter-test.herokuapp.com
+
 ## Sign Up 
 1. Sign up consists of using axios to post request our user object / input from react client to express backend
 2. Installed password-validator and created a schema which will validate our password in terms of having at least an uppercase letter, lowercase letter, and number and passes it to a boolean. If our boolean variable returns true, execute password hashing with bcryptjs and create new object that will be pushed to our database. If our password returns false, send a response in the form of json to indicate that our password has failed and display this error onto the front end. 
