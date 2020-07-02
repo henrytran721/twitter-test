@@ -2,6 +2,10 @@
 
 Viewable at: https://henri-twitter-test.herokuapp.com
 
+Tools used: React.js, node-sass, axios, Express, MongoDB, Mongoose Schemas, localStorage, express-session, Passport.js, bcryptjs, async library, dotenv, password-validator, multer, AWS S3 Bucket, Heroku 
+
+Goal: Recreate Twitter with React.js client and Express backend to learn about cross origin data transfer to a MongoDB database, CRUD operations with RestAPI endpoints, and conditional rendering based on passed data from POST / GET requests. To learn about how to deploy a full stack application to heroku to connect client and server endpoints together. 
+
 ## Sign Up 
 1. Sign up consists of using axios to post request our user object / input from react client to express backend
 2. Installed password-validator and created a schema which will validate our password in terms of having at least an uppercase letter, lowercase letter, and number and passes it to a boolean. If our boolean variable returns true, execute password hashing with bcryptjs and create new object that will be pushed to our database. If our password returns false, send a response in the form of json to indicate that our password has failed and display this error onto the front end. 
@@ -27,7 +31,6 @@ Viewable at: https://henri-twitter-test.herokuapp.com
 3. On the client side, I wrote a conditional statement that checks if the post has a `userRetweeted` key. If it exists, it will loop through it and find the desired data and fill it in. (e.g. `@KingJames retweeted`) The button itself is also conditionally rendered to match if the retweet user is equal to the logged in user and if this is true, it will render another button that says `Retweeted`.
 4. To unretweet, I would run the same operations but remove the individual tweet off of the corresponding array with `findByIdAndDelete()` while running a `filter` method against the current retweets array that returns objects that do not match the selected tweet.
 5. For the like functionality, it was a very similar method where I passed in the post id and user id and found the necessary info, pushed the found tweet to the current array, and updated the user object with a `likedTweets` array. On the client side, I conditionally rendered by matching if the liked tweet is the same as the current rendered tweet with `(indexOf(post._id) > -1)` and rendering a red heart if true. 
-<<<<<<< HEAD
 6. The bookmarks functionality follows the same pattern as the as the like functionality, however I dedicated a whole page so users can click on their bookmarks and view what they have currently saved.
 
 ## Rendering Bookmark and Profile pages
@@ -40,6 +43,3 @@ Viewable at: https://henri-twitter-test.herokuapp.com
 3. In my render method of my parent class, I looped through all of the tweets and users and added each entry with either the tweet or first name / last name / user name transformed to lowercase using `toLowerCase()` method to an array called `lowercaseTweets`.
 4. I created another array called `filteredTweets` that takes my `lowercaseTweets` array and filters based on the condtion of either the search input contains the same string as one of my tweets or usernames.  
 5. I passed in my `filteredTweets` array that re-renders after every search input character into my searchbar component and displayed the results under my search bar. If a user clicks on a result, they will be sent to either an individual tweet page or the corresponding user profile.
-=======
-6. The bookmarks functionality follows the same pattern as the as the like functionality, however I dedicated a whole page so users can click on their bookmarks and view what they have currently saved.  
->>>>>>> a44466a6b239dfb440297688cad85048871af0d2
