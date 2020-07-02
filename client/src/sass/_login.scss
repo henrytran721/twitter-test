@@ -21,6 +21,9 @@ $maxWidth: 480px;
         align-items: center;
         border-radius: 5px;
         box-shadow: 0 2px 20px 0 rgba(0,0,0,0.15);
+        @media(min-width: 320px) and (max-width: 480px) {
+            width: 100%;
+        }
 
         img {
             width: 100px;
@@ -112,7 +115,7 @@ $maxWidth: 480px;
         height: 35px;
         background: #1DA1F2;
         color: white;
-        border-radius: 5px;
+        border-radius: 15px;
         @media(min-width: $minWidth) and (max-width: $maxWidth) {
             width: 30%;
         }
@@ -180,6 +183,10 @@ $maxWidth: 480px;
         color: grey;
         cursor: pointer;
 
+        &:hover {
+            color: red;
+        }
+
         &:focus {
             outline: none;
         }
@@ -213,4 +220,26 @@ $maxWidth: 480px;
 .userLink {
     text-decoration: none;
     color: darken(#1DA1F2, 10%);
+}
+
+.addImageBtn {
+    width: 25px;
+    height: 25px;
+    display: block;
+    cursor: pointer;
+    fill: rgba(29,161,242,1.00);
+}
+
+
+.retweetSvg, .retweetedSvg, .bookmarkSvg, .bookmarkedSvg {
+    width: 25px;
+    height: 25px;
+    cursor: pointer;
+    &:hover {
+        fill: lighten(green, 10%);
+    }
+}
+
+.retweetedSvg, .bookmarkedSvg {
+    fill: lighten(green, 10%);
 }

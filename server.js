@@ -92,8 +92,8 @@ passport.serializeUser(function(user, done) {
 
 // Configuration
 app.use(cors({
-    origin: 'https://henri-twitter-test.herokuapp.com/',
-    // origin: "http://localhost:3000",
+    // origin: 'https://henri-twitter-test.herokuapp.com/',
+    origin: "http://localhost:3000",
     credentials: true,
 }));
 app.use(bodyParser.json());
@@ -208,6 +208,7 @@ app.post('/', (req, res, next) => {
 app.post('/queryprofile', (req, res, next) => {
     let userid = req.body.userid;
     let logged = req.body.loggedInId;
+    console.log(userid);
     async.parallel({
         tweets: function(callback) {
             Tweet.find({})
@@ -224,6 +225,7 @@ app.post('/queryprofile', (req, res, next) => {
             .exec(callback)
         }
     }, function(err, results) {
+        console.log(results.user)
         res.send({tweets: results.tweets, user: results.user, logged: results.logged})
     })
 })
