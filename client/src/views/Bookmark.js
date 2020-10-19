@@ -54,11 +54,11 @@ function BookmarkContainer(props) {
                 let days = (diff / (60*60*24*1000));
                 let newDate;
                 if(days > 1 && days < 2) {
-                    days = Math.floor(days).toString();
+                    days = days.toString();
                     days = days[0];
                     newDate = days + ' day ago';
                 } else if (days > 1) { 
-                days = days.toString();
+                days = Math.floor(days).toString();
                 days = days[0];
                 newDate = days + ' days ago';
                 }
