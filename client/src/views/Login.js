@@ -74,14 +74,14 @@ function MainContainer(props) {
                     let hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
                     let minutes = Math.floor((diff / (1000 * 60)) % 60);
                     let days = (diff / (60*60*24*1000));
+                    console.log(days);
                     let newDate;
                     if(days > 1 && days < 2) {
                         days = days.toString();
                         days = days[0];
                         newDate = days + ' day ago';
                     } else if (days > 1) { 
-                    days = days.toString();
-                    days = days[0];
+                    days = Math.floor(days).toString();
                     newDate = days + ' days ago';
                     }
                     else if (hours < 24 && hours > 0) {
@@ -207,7 +207,7 @@ export default class Login extends React.Component {
         // check if localStorage item exists and parse the info
         // parse our user object and set it to userInfo state
 
-        if(localStorage.length > 0) {
+        if(localStorage.getItem('list') !== null) {
             let user = JSON.parse(localStorage.list);
             this.setState(
                 {

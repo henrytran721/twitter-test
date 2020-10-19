@@ -25,7 +25,7 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    if(localStorage.length > 0) {
+    if(localStorage.getItem('list') !== null) {
       let user = JSON.parse(localStorage.list);
       this.setState({loggedIn: true})
     }
