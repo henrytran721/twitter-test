@@ -92,8 +92,8 @@ passport.serializeUser(function(user, done) {
 
 // Configuration
 app.use(cors({
-    origin: 'https://henri-twitter-test.herokuapp.com/',
-    // origin: "http://localhost:3000",
+    // origin: 'https://henri-twitter-test.herokuapp.com/',
+    origin: "http://localhost:3000",
     credentials: true,
 }));
 app.use(bodyParser.json());
@@ -242,66 +242,15 @@ app.get('/bookmarks/:id', (req, res, next) => {
 })
 
 // tweet endpoint creates a new tweet object from mongoose model and pushes to db
-app.post('/tweet', upload.single('image'), (req, res, next) => {
-        const file = req.file;
-        const s3FileURL = process.env.AWS_Uploaded_File_URL_LINK;
-        const user = req.body.username;
-        const tweetText = req.body.tweet;
-        let s3bucket = new AWS.S3({
-            accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-            secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
-            region: process.env.AWS_REGION
-        })
-
-        if(req.file) {
-
-        var params = {
-                Bucket: process.env.AWS_BUCKET_NAME,
-                Key: file.originalname,
-                Body: file.buffer,
-                ContentType: file.mimetype,
-                ACL: "public-read"
-        };
-        s3bucket.upload(params, function(err, data) {
-            if(err) {
-                res.status(500).json({error: true, Message: err});
-            } else {
-                var newFileUploaded = {
-                    fileLink: s3FileURL + file.originalname,
-                    s3_key: params.Key
-                }
-                User.findById(req.body.username, (err, response) => {
-                    if(err) {
-                        return next(err);
-                    } else {
-                        const tweet = new Tweet(
-                            {
-                                tweet: tweetText,
-                                image: newFileUploaded.fileLink,
-                                username: response
-                            }
-                        )
-                        tweet.save((err) => {
-                            if(err) {
-                                console.log(err);
-                            } else {
-                                res.send({
-                                    redirect: '/'
-                                })
-                            }
-                        })
-                    }
-                })
-            }
-        })
-    } else {
+app.post('/tweet', (req, res, next) => {
+    if(req.body.username) {
         User.findById(req.body.username, (err, response) => {
             if(err) {
                 return next(err);
             } else {
                 const tweet = new Tweet(
                     {
-                        tweet: tweetText,
+                        tweet: req.body.tweet,
                         image: '',
                         username: response
                     }
@@ -489,7 +438,7 @@ app.post('/unlikeTweet', (req, res, next) => {
 app.post('/bookmark', (req, res, next) => {
     // console.log(req.body.postid);
     // console.log(req.body.user);
-    const postid = req.body.postid;
+    const postid = req.body.postId;
     const user = req.body.user;
     
     async.series({
@@ -499,6 +448,7 @@ app.post('/bookmark', (req, res, next) => {
                 .exec(callback)
         }
     }, function(err, response) {
+        console.log(response);
         let bookArr = user.bookmarks;
         bookArr.push(response.tweet);
         // create new user object with updated bookmark arr
@@ -529,7 +479,7 @@ app.post('/bookmark', (req, res, next) => {
 })
 
 app.post('/unbookmark', (req, res, next) => {
-        const postid = req.body.postid;
+        const postid = req.body.postId;
         const user = req.body.user;
 
         let bookmarks = user.bookmarks;

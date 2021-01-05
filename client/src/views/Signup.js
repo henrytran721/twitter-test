@@ -2,6 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import '../sass/_signup.scss';
 import {MyApiClient} from './my-api-client.js';
+
 export default class Signup extends React.Component {
     constructor(props) {
         super(props);

@@ -1,10 +1,6 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap');
-$roboto: 'Roboto', sans-serif;
-$minWidth: 320px;
-$maxWidth: 480px;
+@import '_variables';
 
 .loginContainer {
-    background: #ededed;
     width: 100%;
     height: 100vh;
     display: flex;
@@ -12,50 +8,48 @@ $maxWidth: 480px;
     align-items: center;
 
     .loginForm {
-        background: white;
-        width: 30%;
-        height: 70%;
         display: flex;
         flex-direction: column;
-        justify-content: space-evenly;
-        align-items: center;
-        border-radius: 5px;
-        box-shadow: 0 2px 20px 0 rgba(0,0,0,0.15);
-        @media(min-width: 320px) and (max-width: 480px) {
-            width: 100%;
-        }
-
-        img {
-            width: 100px;
-            height: 100px;
-        }
-
-        input {
-            width: 50%;
-            padding: 2%;
-        }
+        justify-content: space-around;
+        width: 100%;
+        height: 70%;
 
         button {
-            background: #1DA1F2;
+            background: none;
             border: none;
-            padding: 3% 24.5%;
+            background: $lavender;
             color: white;
-            border-radius: 5px;
-            font-family: $roboto;
-            text-transform: uppercase;
-            font-size: 1.2em;
+            padding: 2% 5%;
+            margin: 0 30%;
+            border-radius: 10px;
+            font-family: $titillium;
+            font-size: 1em;
+            cursor: pointer;
+
+            &:focus {
+                outline: none;
+            }
+        }
+        
+        input {
+            border: none;
+            background: none;
+            border-bottom: 1px solid $lavender;
+            margin: 0 5%;
+            font-family: $titillium;
+
+            &:focus {
+                outline: none;
+            }
         }
 
-        a {
-            background: #1DA1F2;
-            border: none;
-            padding: 3% 23%;
-            color: white;
-            border-radius: 5px;
-            text-decoration: none;
-            font-family: $roboto;
-            text-transform: uppercase;
-            font-size: 1.2em;
+        p {
+            text-align: center;
+            span {
+                color: $lavender;
+                font-weight: bold;
+                cursor: pointer;
+            }
         }
     }
 }
@@ -64,6 +58,8 @@ $maxWidth: 480px;
 .loginError {
     font-size: 0.9em;
     color: red;
+    text-align: center;
+    font-family: $titillium;
 }
 
 .mainContainer {
