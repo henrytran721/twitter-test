@@ -2,7 +2,6 @@ import React from 'react';
 
 function Search({handleSearchOnchange, searchInput, filteredTweets}) {
     let filtered = filteredTweets;
-    console.log('Howdy there xD');
     return (
         <div className='sfContainer'>
             <input class='searchBar' type='text' placeholder='Search for Tweet' value={searchInput} onChange={handleSearchOnchange}/>

@@ -22,6 +22,8 @@ function Timeline({handlePassedData, postInfo, user}) {
     }
 
     const handleOperation = (e, operation) => {
+        e.preventDefault();
+
         MyApiClient
         .post(operation, {
             postId: e.target.id,

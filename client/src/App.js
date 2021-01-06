@@ -1,7 +1,6 @@
 import React from 'react';
 import './App.css';
 import Home from './views/Home.js';
-import Signup from './views/Signup.js';
 import Bookmark from './views/Bookmark.js';
 import Profile from './views/Profile.js';
 import Tweet from './views/Tweet.js';
@@ -38,9 +37,6 @@ class App extends React.Component {
                     </Route>
                     <Route path='/user/:id' component={Profile} />
                     <Route path='/tweet/:id' component={Tweet} />
-                    <Route path='/signup'>
-                        <Signup />
-                    </Route>
                     <Route path='/'>
                         <Home />
                     </Route>
