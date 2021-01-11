@@ -14,6 +14,8 @@ function Search({handleSearchOnchange, searchInput, filteredTweets}) {
                     return (
                         <a class='searchResults' href={`/user/` + tweet._id}><li key={tweet._id}>{tweet.first_name[0].toUpperCase() + tweet.first_name.substr(1, tweet.first_name.length)} {tweet.last_name[0].toUpperCase() + tweet.last_name.substr(1, tweet.last_name.length)}</li></a>
                     )
+                } else {
+                    return '';
                 }
             }) : ''}</ul>
         </div>

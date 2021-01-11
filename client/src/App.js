@@ -8,7 +8,6 @@ import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Link
 } from 'react-router-dom';
 
 class App extends React.Component {
@@ -22,7 +21,6 @@ class App extends React.Component {
 
   componentDidMount() {
     if(localStorage.getItem('list') !== null) {
-      let user = JSON.parse(localStorage.list);
       this.setState({loggedIn: true})
     }
   }

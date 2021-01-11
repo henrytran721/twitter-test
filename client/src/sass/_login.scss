@@ -1,5 +1,11 @@
 @import '_variables';
 
+html {
+    margin: 0;
+    padding: 0;
+    background: $gray;
+}
+
 .loginContainer {
     width: 100%;
     height: 100vh;
@@ -77,12 +83,13 @@
 
 .userContent {
     input[type=text] {
-        width: 100%;
+        width: 92%;
         height: 50px;
         font-size: 1.0em;
         font-family: $roboto;
         padding: 0 4%;
         border: none;
+        background: transparent;
 
         &:focus {
             outline: none;
@@ -109,11 +116,18 @@
         border: none;
         width: 15%;
         height: 35px;
-        background: #1DA1F2;
+        background: $lavender;
         color: white;
+        cursor: pointer;
+        transition: all 100ms linear;
         border-radius: 15px;
         @media(min-width: $minWidth) and (max-width: $maxWidth) {
             width: 30%;
+        }
+
+        &:hover {
+            transform: translateY(-10%);
+            box-shadow: 4px 4px 8px rgba(0,0,0,0.25);
         }
     }
 
@@ -128,6 +142,7 @@
     border-bottom: 1px solid #e0e0e0;
     h4 {
         font-family: $roboto;
+        color: $lavender;
         margin: 3% 0 0 0;
         padding: 0;
         span {
@@ -178,9 +193,16 @@
         font-size: 1.5em;
         color: grey;
         cursor: pointer;
-
+        transition: all 100ms linear;
+        width: 35px;
+        height: 35px;
+        border-radius: 50%;
         &:hover {
+            background: lighten(red, 35%);
+            box-shadow: 2px 2px 8px rgba(0,0,0,0.25);
+            transform: translateY(-10%);
             color: red;
+
         }
 
         &:focus {
@@ -191,7 +213,7 @@
 
 .retweetText {
     font-family: $roboto;
-    color: #1DA1F2;
+    color: darken($lavender, 20%);
 }
 
 .tweetDate {
@@ -231,8 +253,14 @@
     width: 25px;
     height: 25px;
     cursor: pointer;
+    transition: all 100ms linear;
+    padding: 1%;
+    border-radius: 50%;
     &:hover {
-        fill: lighten(green, 10%);
+        background: #CCFFCC;
+        box-shadow: 2px 2px 8px rgba(0,0,0,0.25);
+        fill: green;
+        transform: translateY(-10%);
     }
 }
 

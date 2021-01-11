@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useRef } from 'react';
 import {MyApiClient} from './my-api-client.js';
 import '../sass/_signup.scss';
 import '../sass/_login.scss';

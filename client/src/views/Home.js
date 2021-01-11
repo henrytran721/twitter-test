@@ -52,7 +52,6 @@ export default class Home extends React.Component {
             })
             .then(() => {
                 let copyArr = new Array().concat(this.state.allTweets.slice(0));
-                console.log(copyArr);
                 copyArr.map((tweet) => {
                     var copy = tweet;
                     copy.tweet = copy.tweet.toLowerCase();
