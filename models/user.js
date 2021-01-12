@@ -1,7 +1,6 @@
 const mongoose = require('mongoose');
 
 const User = mongoose.model(
-    'User',
     {
         first_name: {type: String, required: true, min: 1},
         last_name: {type: String, required: true, min: 1},
