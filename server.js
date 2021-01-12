@@ -14,7 +14,7 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 var sanitizer = require('sanitize')();
-// const User = require('./models/User');
+const User = require('./models/User');
 const Tweet = require('./models/Tweet');
 
 // import route
