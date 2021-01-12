@@ -80,9 +80,11 @@ function Timeline({handlePassedData, postInfo, user}) {
                     const bookmarks = user.bookmarks;
                     let newArr = [];
                     let bookArr = [];
-                    liked.map((like) => {
-                        newArr.push(like._id);
-                    })
+                    if(liked) {
+                        liked.map((like) => {
+                            newArr.push(like._id);
+                        })
+                    }
                     if(bookmarks) {
                         bookmarks.map((book) => {
                             bookArr.push(book._id)
