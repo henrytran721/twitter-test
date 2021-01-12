@@ -29,25 +29,6 @@ function MainPage({handlePassedData, user, onChange, handleTweetSubmit, postInfo
                 searchInput={searchInput}
                 filteredTweets={filteredTweets} 
             />
-            {/* <MainContainer
-             handleUpload={props.handleUpload}
-             imageUpload={props.imageUpload}
-             onChange={props.onChange} 
-             handleTweetSubmit={props.handleTweetSubmit}
-             postInfo={props.postInfo}
-             handleRetweet={props.handleRetweet}
-             handleUnRetweet={props.handleUnRetweet}
-             user={props.user}
-             handleLike={props.handleLike}
-             handleUnLike={props.handleUnLike}
-             handleBookmark={props.handleBookmark}
-             handleRemoveBookmark={props.handleRemoveBookmark}
-            />
-            <SearchandFollow
-            handleSearchOnchange={props.handleSearchOnchange}
-            searchInput={props.searchInput}
-            filteredTweets={props.filteredTweets} 
-            /> */}
         </div>
     )
 }

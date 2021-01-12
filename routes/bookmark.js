@@ -19,7 +19,6 @@ router.post('/', (req, res, next) => {
         if(response.tweet) {
             bookArr.push(response.tweet);
         } else {
-            res.statusCode(403).send();
         }
         // create new user object with updated bookmark arr
         let userUpdated = new User({
@@ -33,7 +32,7 @@ router.post('/', (req, res, next) => {
             bookmarks: bookArr,
             location: user.location,
             birthdate: user.birthdate,
-            hyperlinK: user.hyperlink
+            hyperlink: user.hyperlink
         })
 
         User.findByIdAndUpdate(user._id, userUpdated, {}, (err, response) => {
