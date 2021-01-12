@@ -58,7 +58,7 @@ function Timeline({handlePassedData, postInfo, user}) {
                     let current = Date.now();
                     let diff = current - date;
                     let hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
-                    let minutes = Math.floor((diff / (1000 * 60)) % 60);
+                    let minutes = Math.floor((diff / (60000)));
                     let days = (diff / (60*60*24*1000));
                     let newDate;
                     if(days > 1 && days < 2) {

@@ -51,6 +51,18 @@ export default class Home extends React.Component {
                 })
             })
             .then(() => {
+                // reverse arr to show latest tweets
+                var tweetArr = this.state.allTweets;
+                for(let i = 0; i < Math.floor(tweetArr.length / 2); i++) {
+                    let temp = tweetArr[i];
+                    tweetArr[i] = tweetArr[tweetArr.length - i - 1];
+                    tweetArr[tweetArr.length - i - 1] = temp;
+                }
+                this.setState({
+                    allTweets: tweetArr
+                })
+            })
+            .then(() => {
                 let copyArr = new Array().concat(this.state.allTweets.slice(0));
                 copyArr.map((tweet) => {
                     var copy = tweet;

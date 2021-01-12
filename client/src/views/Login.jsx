@@ -96,11 +96,29 @@ const Login = ({handlePassedData}) => {
         }
     }
 
+
+    const handleDemo = (e) => {
+        e.preventDefault();
+        MyApiClient
+            .post('/login', {
+                username: 'demo-user',
+                password: 'Demouser1'
+            })
+            .then((response) => {
+                handlePassedData({passedData: true, state: 'loggedIn'});
+                handlePassedData({passedData: response.data, state: 'userInfo'});
+            })
+    }
+
     return (
         <div className='authenticationContainer'>
             <div className='homeHeader'>
                 <h1>Henri's Twitter</h1>
                 <p>Rediscover social interactions.</p>
+                <div className='demoUser'>
+                    <p>Try a demo as a guest user</p>
+                    <button onClick={handleDemo}>Try Demo</button>
+                </div>
             </div>
             <div className='loginSignup'>
                 <div className='loginContainer'>

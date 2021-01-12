@@ -31,9 +31,15 @@ html {
             font-family: $titillium;
             font-size: 1em;
             cursor: pointer;
+            transition: all 100ms linear;
 
             &:focus {
                 outline: none;
+            }
+
+            &:hover {
+                transform: translateY(-10%);
+                box-shadow: 4px 4px 8px rgba(0,0,0,0.25);
             }
         }
         
@@ -297,4 +303,33 @@ html {
 
 .switchTextTwo {
     visibility: hidden;
+}
+
+
+.demoUser {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    p {
+        font-size: 1em !important;
+    }
+
+    button {
+        background: none;
+            border: none;
+            background: $lavender;
+            color: white;
+            padding: 1.5% 3%;
+            margin: 0 30%;
+            border-radius: 5px;
+            font-family: $titillium;
+            cursor: pointer;
+            transition: all 100ms linear;
+
+            &:hover {
+                transform: translateY(-10%);
+                box-shadow: 4px 4px 8px rgba(0,0,0,0.25);
+            }
+    }
 }
