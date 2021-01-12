@@ -51,6 +51,7 @@ function TweetContainer(props) {
     }
     const liked = props.user.likedTweets;
     const bookmarks = props.user.bookmarks;
+    console.log(bookmarks);
     let newArr = [];
     let bookArr = [];
     liked.map((like) => {
@@ -75,14 +76,14 @@ function TweetContainer(props) {
                 <img src={tweet.image} />
                 <div className='tweetInteractions'>
                 {tweet.userRetweeted && userRetweetedId === loggedInUserId ? 
-                <button id={tweet._id} className='confirmRetweet' onClick={props.handleUnRetweet}>Retweeted</button> : 
-                <button id={tweet._id} className='tIRetweet' onClick={props.handleRetweet}>Retweet</button> }
+                <svg id={tweet._id} viewBox="0 0 24 24" onClick={props.handleUnRetweet} style={{fill: 'green'}} class="retweetedSvg r-4qtqp9 r-yyyyoo r-1xvli5t r-dnmrzs r-bnwqim r-1plcrui r-lrvibr r-1hdv0qi"><g><path d="M23.77 15.67c-.292-.293-.767-.293-1.06 0l-2.22 2.22V7.65c0-2.068-1.683-3.75-3.75-3.75h-5.85c-.414 0-.75.336-.75.75s.336.75.75.75h5.85c1.24 0 2.25 1.01 2.25 2.25v10.24l-2.22-2.22c-.293-.293-.768-.293-1.06 0s-.294.768 0 1.06l3.5 3.5c.145.147.337.22.53.22s.383-.072.53-.22l3.5-3.5c.294-.292.294-.767 0-1.06zm-10.66 3.28H7.26c-1.24 0-2.25-1.01-2.25-2.25V6.46l2.22 2.22c.148.147.34.22.532.22s.384-.073.53-.22c.293-.293.293-.768 0-1.06l-3.5-3.5c-.293-.294-.768-.294-1.06 0l-3.5 3.5c-.294.292-.294.767 0 1.06s.767.293 1.06 0l2.22-2.22V16.7c0 2.068 1.683 3.75 3.75 3.75h5.85c.414 0 .75-.336.75-.75s-.337-.75-.75-.75z"></path></g></svg> : 
+                <svg id={tweet._id} viewBox="0 0 24 24" onClick={props.handleRetweet} class="retweetSvg r-4qtqp9 r-yyyyoo r-1xvli5t r-dnmrzs r-bnwqim r-1plcrui r-lrvibr r-1hdv0qi"><g><path d="M23.77 15.67c-.292-.293-.767-.293-1.06 0l-2.22 2.22V7.65c0-2.068-1.683-3.75-3.75-3.75h-5.85c-.414 0-.75.336-.75.75s.336.75.75.75h5.85c1.24 0 2.25 1.01 2.25 2.25v10.24l-2.22-2.22c-.293-.293-.768-.293-1.06 0s-.294.768 0 1.06l3.5 3.5c.145.147.337.22.53.22s.383-.072.53-.22l3.5-3.5c.294-.292.294-.767 0-1.06zm-10.66 3.28H7.26c-1.24 0-2.25-1.01-2.25-2.25V6.46l2.22 2.22c.148.147.34.22.532.22s.384-.073.53-.22c.293-.293.293-.768 0-1.06l-3.5-3.5c-.293-.294-.768-.294-1.06 0l-3.5 3.5c-.294.292-.294.767 0 1.06s.767.293 1.06 0l2.22-2.22V16.7c0 2.068 1.683 3.75 3.75 3.75h5.85c.414 0 .75-.336.75-.75s-.337-.75-.75-.75z"></path></g></svg> }
                 {newArr.indexOf(tweet._id) > -1 ? 
                 <button id={tweet._id} className='tILike' onClick={props.handleUnLike} style={{color: 'red'}}>&#9829;</button> 
                 : <button id={tweet._id} className='tILike' onClick={props.handleLike}>&#9829;</button> }
                 {bookArr.indexOf(tweet._id) > -1 ? 
-                <button id={tweet._id} className='tIBookmark' onClick={props.handleRemoveBookmark} style={{background: 'green'}}>Bookmarked</button> :
-                <button id={tweet._id} className='tIBookmark' onClick={props.handleBookmark}>Bookmark</button>
+                <svg id={tweet._id} viewBox="0 0 24 24" onClick={props.handleRemoveBookmark} class="bookmarkedSvg r-hkyrab r-4qtqp9 r-yyyyoo r-lwhw9o r-dnmrzs r-bnwqim r-1plcrui r-lrvibr"><g><path d="M19.9 23.5c-.157 0-.312-.05-.442-.144L12 17.928l-7.458 5.43c-.228.164-.53.19-.782.06-.25-.127-.41-.385-.41-.667V5.6c0-1.24 1.01-2.25 2.25-2.25h12.798c1.24 0 2.25 1.01 2.25 2.25v17.15c0 .282-.158.54-.41.668-.106.055-.223.082-.34.082zM12 16.25c.155 0 .31.048.44.144l6.71 4.883V5.6c0-.412-.337-.75-.75-.75H5.6c-.413 0-.75.338-.75.75v15.677l6.71-4.883c.13-.096.285-.144.44-.144z"></path></g></svg> :
+                <svg id={tweet._id} viewBox="0 0 24 24" onClick={props.handleBookmark} class="bookmarkSvg r-hkyrab r-4qtqp9 r-yyyyoo r-lwhw9o r-dnmrzs r-bnwqim r-1plcrui r-lrvibr"><g><path d="M19.9 23.5c-.157 0-.312-.05-.442-.144L12 17.928l-7.458 5.43c-.228.164-.53.19-.782.06-.25-.127-.41-.385-.41-.667V5.6c0-1.24 1.01-2.25 2.25-2.25h12.798c1.24 0 2.25 1.01 2.25 2.25v17.15c0 .282-.158.54-.41.668-.106.055-.223.082-.34.082zM12 16.25c.155 0 .31.048.44.144l6.71 4.883V5.6c0-.412-.337-.75-.75-.75H5.6c-.413 0-.75.338-.75.75v15.677l6.71-4.883c.13-.096.285-.144.44-.144z"></path></g></svg>
                 }
                 </div>
                 </div> 
@@ -134,8 +135,8 @@ export default class Tweet extends React.Component {
 
     handleRetweet = (e) => {
         let id = e.target.id;
-        MyApiClient.post('/retweet', {
-            postid: id,
+        MyApiClient.post('/tweet/retweet', {
+            postId: id,
             user: this.state.userInfo
         })
         .then((res) => {
@@ -147,7 +148,7 @@ export default class Tweet extends React.Component {
 
     handleUnRetweet = (e) => {
         MyApiClient
-            .post('/unretweet', {
+            .post('/tweet/unretweet', {
                 postId: e.target.id,
                 user: this.state.userInfo
             })
@@ -161,7 +162,7 @@ export default class Tweet extends React.Component {
     handleLike = (e) => {
         // {e.target.style.color === '' ? e.target.style.color = 'red' : e.target.style.color = ''};
         MyApiClient
-            .post('/likeTweet', {
+            .post('/tweet/likeTweet', {
                 postId: e.target.id,
                 user: this.state.userInfo
             })
@@ -175,7 +176,7 @@ export default class Tweet extends React.Component {
     handleUnLike = (e) => {
         // {e.target.style.color === '' ? e.target.style.color = 'red' : e.target.style.color = ''};
         MyApiClient
-            .post('/unlikeTweet', {
+            .post('/tweet/unlikeTweet', {
                 postId: e.target.id,
                 user: this.state.userInfo
             })
@@ -190,7 +191,7 @@ export default class Tweet extends React.Component {
         let id = e.target.id;
         console.log(id);
         MyApiClient.post('/bookmark', {
-            postid: id,
+            postId: id,
             user: this.state.userInfo
         })
         .then((res) => {
@@ -203,8 +204,8 @@ export default class Tweet extends React.Component {
     handleRemoveBookmark = (e) => {
         let id = e.target.id;
         console.log(id);
-        MyApiClient.post('/unbookmark', {
-            postid: id,
+        MyApiClient.post('/bookmark/unbookmark', {
+            postId: id,
             user: this.state.userInfo
         })
         .then((res) => {

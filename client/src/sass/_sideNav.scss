@@ -1,10 +1,13 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap');
+@import '_variables';
 $roboto: 'Roboto', sans-serif;
 $minWidth: 320px;
 $maxWidth: 480px;
 
 .mainPageContainer {
     display: flex;
+    font-family: $titillium;
+
 
     .mainContainer {
         flex: 2.5;
@@ -47,6 +50,7 @@ $maxWidth: 480px;
     align-items: center;
     flex: 1.25 1;
     border-right: 1px solid #e0e0e0;
+    font-family: $titillium;
     @media(min-width: 320px) and (max-width: 480px) {
         position: fixed;
         bottom: 0;
@@ -71,16 +75,17 @@ $maxWidth: 480px;
         a {
             text-decoration: none;
             color: #000;
-            font-family: $roboto;
             font-size: 1.2em;
             display: flex;
             align-items: center;
             justify-content: space-around;
             padding: 3% 0;
             border-radius: 15px;
+            transition: all 100ms linear;
             &:hover {
-                background: lighten(rgba(29,161,242,1.00), 30%);
-                color: rgba(29,161,242,1.00);
+                background: lighten($lavender, 18%);
+                color: $lavender;
+                transform: translateY(-10%);
             }
 
             .homePng, .bookmarkPng, .profilePng, .morePng {
@@ -105,12 +110,16 @@ $maxWidth: 480px;
 
 .logoutBtn {
     border: none;
-    background: #1DA1F2;
+    background: $lavender;
     color: white;
-    padding: 2% 5%;
+    padding: 5%;
     border-radius: 5px;
-    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.15);
-    font-family: $roboto;
+    transition: all 100ms linear;
+    font-family: $titillium;
+    &:hover {
+        transform: translateY(-10%);
+        box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.15);
+    }
 }
 
 .twitterIconTop {

@@ -1,56 +1,88 @@
 const express = require('express');
-const { isEmpty } = require('lodash');
-const User = require('../models/user');
+const User = require('../models/User');
+const Tweet = require('../models/Tweet');
+const async = require('async');
 const router = express.Router();
 
-router.post('/add', async (req, res) => {
-    if (isEmpty(req.body)) {
-        return res.status(403).json({
-            message: 'Body should not be empty',
-            statusCode: 403
-        });
-    }
-    const { name, position, company } = req.body;
+router.post('/getuser', (req, res, next) => {
+    User.findById(req.body.id, (err, response) => {
+        if(err) {
+            return next(err);
+        } else {
+            res.send(response);
+        }
+    })
+})
 
-    const newUser = new User({
-        position,
-        name,
-        company,
-        date: Date.now()
-    });
-    try {
-        await newUser.save();
-        res.json({
-            message: 'Data successfully saved',
-            statusCode: 200,
-            name,
-            position,
-            company
-        });
-    } catch (error) {
-        console.log('Error: ', error);
-        res.status(500).json({
-            message: 'Internal Server error',
-            statusCode: 500
-        });
-    }
-});
+router.post('/', async (req, res, next) => {
+    let userid = req.body.userid;
+    // get all tweets
+    const tweets = await Tweet.find({})
+                                .select('image username tweet userRetweeted date')
+                                .populate('username userRetweeted');
+    // get all users
+    const allUsers = await User.find({})
+                                .select('username first_name last_name');
+    // get current
+    const user = await User.findById(userid)
+    res.send({tweets: tweets, user: user, allUsers: allUsers})
+    })
 
+router.post('/queryprofile', async (req, res) => {
+    let userid = req.body.userid;
+    let loggedId = req.body.loggedInId;
+    const tweets = await Tweet.find({})
+                                .select('image username tweet userRetweeted date')
+                                .populate('username userRetweeted');
+    
+    const user = await User.findById(userid);
+    const logged = await User.findById(loggedId);
 
-router.get('/users', async (req, res) => {
+    res.send({tweets: tweets, user: user, logged: logged})
+    })
 
-    try {
-        const users = await User.find({});
+router.post('/userprofile', (req, res, next) => {
+    const user = req.body.user;
+    let userUpdated = new User({
+        first_name: user.first_name,
+        last_name: user.last_name,
+        username: user.username,
+        _id: user._id,
+        password: user.password,
+        retweets: user.retweets,
+        likedTweets: user.likedTweets,
+        bookmarks: user.bookmarks,
+        location: req.body.location,
+        birthdate: req.body.birthdate,
+        hyperlink: req.body.hyperlink
+    })
 
-        return res.json({
-            users
-        });
-    } catch (error) {
-        return res.status(500).json({
-            message: 'Internal Server error'
-        });
-    }
-       
-});
+    User.findByIdAndUpdate(user._id, userUpdated, {}, (err, response) => {
+        if(err) {
+            return err;
+        } else {
+            let redirect={redirect: '/'}
+            res.send(redirect);
+        }
+    })
+})
+
+router.post('/fetchTweet', (req, res, next) => {
+    const userid = req.body.userid;
+    async.parallel({
+        tweets: function(callback) {
+            Tweet.find({})
+            .select('image username tweet userRetweeted date')
+            .populate('username userRetweeted')
+            .exec(callback)
+        },
+        user: function(callback) {
+            User.findById(userid)
+                .exec(callback)
+        }
+    }, (err, response) => {
+        res.send({tweet: response.tweets, user: response.user});
+    })
+})
 
 module.exports = router;
