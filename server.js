@@ -15,7 +15,7 @@ const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 var sanitizer = require('sanitize')();
 const User = require('./models/User');
-const Tweet = require('./models/Tweet');
+const Tweet = require('./models/Tweet.js');
 
 // import route
 const index = require('./routes/index');

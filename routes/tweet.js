@@ -1,7 +1,7 @@
 const express = require('express');
 const { isEmpty } = require('lodash');
 const User = require('../models/User');
-const Tweet = require('../models/Tweet');
+const Tweet = require('../models/Tweet.js');
 const async = require('async');
 const router = express.Router();
 
