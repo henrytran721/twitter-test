@@ -49,6 +49,7 @@ export default class Home extends React.Component {
                     userInfo: response.data.user,
                     allUsers: response.data.allUsers
                 })
+                console.log('state has been set')
             })
             .then(() => {
                 // reverse arr to show latest tweets

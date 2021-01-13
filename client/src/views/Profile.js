@@ -282,15 +282,21 @@ export default class Profile extends React.Component {
         })
     }
 
-
-
+    handlePassedData = (data) => {
+        // passedData: data to be set to overall state,
+        // state: the variable to set state to (e.g. this.state.loggedIn)
+        this.setState({
+            [data.state]: data.passedData
+        })
+        window.location = '/';
+    }
 
     render() {
-        console.log(this.state.infoShown);
         return(
         <div className='mainPageContainer'>
             <SideNav
              loggedInUser={this.state.loggedInUser} 
+             handlePassedData={this.handlePassedData}
             />
             <ProfileContainer
             user={this.state.userInfo}
