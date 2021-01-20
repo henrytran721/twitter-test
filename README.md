@@ -2,7 +2,7 @@
 
 Viewable at: https://henri-twitter-test.herokuapp.com
 
-Tools used: React.js, node-sass, axios, Express, MongoDB, Mongoose Schemas, localStorage, express-session, Passport.js, bcryptjs, async library, dotenv, password-validator, multer, AWS S3 Bucket, Heroku 
+Tools used: React.js, node-sass, axios, Express, MongoDB, Mongoose Schemas, localStorage, express-session, Passport.js, bcryptjs, async library, dotenv, password-validator, Heroku 
 
 Goal: Recreate Twitter with React.js client and Express backend to learn about cross origin data transfer to a MongoDB database, CRUD operations with RestAPI endpoints, and conditional rendering based on passed data from POST / GET requests. To learn about how to deploy a full stack application to heroku to connect client and server endpoints together. 
 
